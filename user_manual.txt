@@ -1,0 +1,216 @@
+================================================================================
+        FACE RECOGNISED ATTENDANCE SYSTEM – USER MANUAL & SETUP GUIDE
+================================================================================
+
+This manual covers everything needed to install and run the application.
+
+Choose the method that suits you:
+
+   • METHOD A – Run from Python source using PyCharm (RECOMMENDED)
+   • METHOD B – Run as a standalone Windows executable (.exe)
+
+
+--------------------------------------------------------------------------------
+SYSTEM REQUIREMENTS
+--------------------------------------------------------------------------------
+
+   • Windows 10 / 11 (64‑bit recommended)
+   • Python 3.9 or 3.10 (for Method A)
+   • MySQL Server 5.7+ or 8.0+ (local installation)
+   • Webcam (for face capture and attendance scanning)
+   • 2 GB free disk space
+
+
+--------------------------------------------------------------------------------
+PREREQUISITES (REQUIRED FOR BOTH METHODS)
+--------------------------------------------------------------------------------
+
+1. INSTALL MYSQL SERVER
+   Download from: https://dev.mysql.com/downloads/mysql/
+   During installation, set the root password. The app expects:
+      DEFAULT PASSWORD: Silva-Wesam@9197
+   (You can override this later using a dbpwd.txt file)
+
+2. INSTALL PYTHON 3.9 OR 3.10 (Only for Method A)
+   Download from: https://www.python.org/downloads/
+   IMPORTANT: Check the box "Add Python to PATH" during installation.
+
+3. INSTALL PYCHARM COMMUNITY EDITION (Only for Method A)
+   Download from: https://www.jetbrains.com/pycharm/download/
+   PyCharm will automatically handle all Python packages including the complex
+   face_recognition and dlib libraries. No manual compiler setup is required.
+
+
+--------------------------------------------------------------------------------
+DATABASE SETUP (MANDATORY FOR BOTH METHODS)
+--------------------------------------------------------------------------------
+
+Open MySQL Command Line Client or MySQL Workbench and run the following SQL:
+
+-------------------------------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS company_db;
+USE company_db;
+
+CREATE TABLE IF NOT EXISTS admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(64) NOT NULL,
+    company_key VARCHAR(20),
+    profile_image VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    position VARCHAR(100),
+    department VARCHAR(50),
+    company_id VARCHAR(20) UNIQUE,
+    emirates_id VARCHAR(30),
+    labour_card VARCHAR(30),
+    visa_expiry DATE,
+    dob DATE,
+    join_date DATE,
+    phone VARCHAR(20),
+    email VARCHAR(100),
+    salary DECIMAL(10,2) DEFAULT 0.00,
+    face_encoding JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT NOT NULL,
+    date DATE NOT NULL,
+    checkin TIME,
+    checkout TIME,
+    status ENUM('P','A','E','H') DEFAULT 'A',
+    FOREIGN KEY (emp_id) REFERENCES employees(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_attendance (emp_id, date)
+);
+
+CREATE TABLE IF NOT EXISTS documents (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT NOT NULL,
+    doc_type VARCHAR(20) NOT NULL,
+    file_path VARCHAR(500) NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (emp_id) REFERENCES employees(id) ON DELETE CASCADE
+);
+-------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+METHOD A – RUN FROM PYTHON SOURCE USING PYCHARM (RECOMMENDED)
+--------------------------------------------------------------------------------
+
+Step 1 – Obtain the source files
+   Place all files (the main script .py, Company_logo.jpg, requirements.txt)
+   into a single folder on your computer.
+
+Step 2 – Open the project in PyCharm
+   Launch PyCharm → Click "Open" → Select the project folder.
+
+Step 3 – Install dependencies automatically
+   PyCharm will detect the requirements.txt file and show a notification:
+   "Package requirements 'requirements.txt' are not installed."
+   Click "Install requirements". PyCharm will create a virtual environment
+   and install everything (including face_recognition) for you.
+
+   If the notification does not appear:
+      Go to File → Settings → Project → Python Interpreter
+      Click the "+" button → "From requirements.txt" → Select the file.
+
+Step 4 – (Optional) Custom database password
+   If your MySQL root password is NOT "Silva-Wesam@9197", create a file named
+   "dbpwd.txt" in the project folder. Write your password inside and save.
+
+Step 5 – Run the application
+   Right‑click on the main.py Python file and select "Run".
+
+Step 6 – First login
+   Use the "Register" link on the login screen to create an admin account.
+   The company key required during registration is: 123456
+
+
+--------------------------------------------------------------------------------
+METHOD B – BUILD AND USE A STANDALONE .EXE FILE
+--------------------------------------------------------------------------------
+
+Step 1 – Prepare the source as described in Method A and ensure it runs in PyCharm.
+
+Step 2 – In PyCharm, open the Terminal tab (it is already activated).
+
+Step 3 – Install PyInstaller:
+      pip install pyinstaller
+
+Step 4 – Use the provided main.spec file (or create one).
+      Build the executable with:
+         pyinstaller main.spec
+
+Step 5 – The finished .exe will be located in the "dist" folder.
+      You can rename it and distribute it.
+
+Important notes for distribution:
+   • The target computer MUST have MySQL Server installed and the database set up.
+   • If using a custom MySQL password, place a dbpwd.txt file in the same
+     folder as the .exe.
+   • Employee documents will be stored under:
+        C:\Users\<Username>\company_docs\
+
+
+--------------------------------------------------------------------------------
+CONFIGURATION FILES
+--------------------------------------------------------------------------------
+
+dbpwd.txt
+   Create this file only if your MySQL root password differs from the default.
+   Write ONLY the password inside (no extra spaces or line breaks).
+
+settings.json(Left_Overs From OLD BUILDS)
+   Automatically generated by the application. Stores theme and logo path.
+
+Company_logo.jpg
+   Must be present in the project folder when running from source or building
+   the executable. It is embedded into the .exe during the build process.
+
+
+--------------------------------------------------------------------------------
+TROUBLESHOOTING COMMON ISSUES
+--------------------------------------------------------------------------------
+
+1. Camera does not open
+   • Ensure no other application is using the webcam.
+   • Try restarting the computer.
+   • If the problem persists, comment out "cv2.CAP_DSHOW" in the code.
+
+2. MySQL connection refused
+   • Check that the MySQL service is running (search for "Services" in Windows).
+   • Verify the password in dbpwd.txt (or the default one).
+
+3. "face_recognition" or "dlib" install fails in PyCharm
+   • Install Microsoft Visual C++ Redistributable from:
+        https://aka.ms/vs/17/release/vc_redist.x64.exe
+   • Restart PyCharm and try installing requirements again.
+
+4. Executable crashes on startup
+   • Run the .exe from Command Prompt to see the error message.
+   • Make sure MySQL is installed and the database exists on the target machine.
+
+5. Missing logo on login screen
+   • Ensure Company_logo.jpg is in the same folder as the script / executable.
+
+
+--------------------------------------------------------------------------------
+FINAL NOTES
+--------------------------------------------------------------------------------
+
+• Face recognition works best in good lighting with a clear view of the face.
+• Employee photos and documents are stored locally; remember to back them up.
+• The default company key for admin registration is "123456".
+
+================================================================================
+                         END OF USER MANUAL
+================================================================================

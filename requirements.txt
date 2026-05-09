@@ -1,0 +1,26 @@
+# ============================================
+# Core Database & GUI
+# ============================================
+pymysql==1.1.0
+Pillow==10.1.0
+
+# ============================================
+# Face Recognition & Models
+# ============================================
+# dlib binary wheel for Windows (precompiled)
+dlib==19.24.2
+# face-recognition and its model files
+face-recognition==1.3.0
+face-recognition-models==0.3.0
+
+# ============================================
+# Computer Vision & Camera
+# ============================================
+# Use opencv-python for full GUI/camera support
+opencv-python==4.8.1.78
+numpy==1.24.3
+
+# ============================================
+# Optional: For Building Executable
+# ============================================
+pyinstaller==6.3.0
