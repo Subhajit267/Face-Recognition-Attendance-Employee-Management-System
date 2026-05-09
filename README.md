@@ -453,14 +453,12 @@ This project demonstrates:
 It serves as a practical implementation of applied AI and biometric attendance automation.
 
 ---
+# 👥 Contributor
 
-# 👥 Contributors
-
-| Role                    | Contributor     |
-| ----------------------- | --------------- |
-| Lead Developer          | Subhajit Halder |
-| Testing & Documentation | Placeholder     |
-| UI/UX Design            | Placeholder     |
+| Role | Details |
+|---|---|
+| Lead Developer | **Subhajit Halder** |
+| Email | subhajithalder267@outlook.com |
 
 ---
 
