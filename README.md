@@ -464,12 +464,6 @@ It serves as a practical implementation of applied AI and biometric attendance a
 
 ---
 
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-
 # 🎉 Conclusion
 
 FaceRecognize combines AI-powered facial biometrics with desktop automation to deliver a practical, scalable, and secure workforce attendance platform.
@@ -483,11 +477,3 @@ By integrating:
 
 the project demonstrates how modern AI technologies can simplify workforce management while remaining fully deployable on local infrastructure.
 
----
-
-<div align="center">
-
-Built with ❤️ at Jalpaiguri Government Engineering College
-
-</div>
-```
