@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# FaceRecognize – Enterprise Face Recognition Attendance System
+# Face Recognition Attendance and Employee Management System
 
 ### Automated biometric workforce attendance powered by real-time facial recognition, MySQL, and intelligent employee management.
 
