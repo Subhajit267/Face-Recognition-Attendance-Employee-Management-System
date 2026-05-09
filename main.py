@@ -567,7 +567,7 @@ class TopBar(tk.Frame):
         else:
             self._draw_placeholder_logo(logo_frame, colors)
 
-        tk.Label(logo_frame, text="Dormer Engineering Consultancy", bg=colors["panel"], fg=colors["text"],
+        tk.Label(logo_frame, text="COMPANY PLACEHOLDER", bg=colors["panel"], fg=colors["text"],
                  font=("Segoe UI", 14, "bold")).pack(side="left")
 
         right = tk.Frame(self, bg=colors["panel"])
@@ -671,7 +671,7 @@ class LoginPage(tk.Frame):
             tk.Label(center, text="◈", bg=colors["bg"], fg=colors["accent"],
                      font=("Segoe UI", 48)).pack(pady=(0, 4))
 
-        tk.Label(center, text="Dormer Engineering Consultancy", bg=colors["bg"], fg=colors["text"],
+        tk.Label(center, text="COMPANY PLACEHOLDER", bg=colors["bg"], fg=colors["text"],
                  font=("Segoe UI",26,"bold")).pack()
         tk.Label(center, text="Face Recognized Attendance System",
                  bg=colors["bg"], fg=colors["subtext"], font=("Segoe UI",10)).pack(pady=(4,32))
